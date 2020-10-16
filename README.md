@@ -34,18 +34,21 @@ If you have used Acount:Osseri
 git clone --recursive https://github.com/Osseri/Group2-deeptask_personality_recognizer.git
 ```
 
-*You don't think about permition of text_based_pr_model_gen repository. Please ignore*
-
+*You don't think about permission of text_based_pr_model_gen repository. Please ignore*
 ```bash
 sudo apt-get install libasound-dev portaudio19-dev libportaudio2 libportaudiocpp0
-sudo pip install --upgrade pip setuptools
-sudo pip install --upgrade pyasn1
 sudo apt-get install python3-pyyaml
 sudo apt-get install python3-tk
+sudo apt-get install python-pyaudio
+sudo pip install --upgrade pip
+sudo pip3 install --upgrade pip
 sudo pip install -r requirements_py2.txt
-sudo pip3 install -r requirements_py3.txt
+sudo pip3 install -r requirements_py3.txt # recommend to use python3.6 or higher
+cd ${your catkin workspace}
+caktin_make
+rospack profile
 rosrun feature_handler nltk_download.py
-python3 -m spacy download en
+python3 -m spacy download en # recommend to use python3.6 or higher
 ```
 
 
@@ -55,7 +58,7 @@ If you want to use spellchecker
 ```bash
 git clone https://github.com/hyeonukbhin/py-hanspell.git
 cd py-hanspell
-python setup.py install
+python3 setup.py install
 ```
 
 and then insert your service key:
@@ -116,24 +119,26 @@ The final output data of our module. That consists of personality scores and cla
 There are two categories of ROS Parameters that can be used to configure the overall personality node: audio interface, state update
 
 ### 8.1 Audio interface parameters
-- ~DEVICE_INDEX (int, default: 7)
+- ~device_name (int, default: 7)
 The hardware index of the microphone. You should check and fill out each model. This information can be checked through the check_device.py script.
-- ~CHANNELS (int, default: 1)
+- ~channels (int, default: 1)
 The number of channels on the microphone. You should check and fill out each model. This information can be checked through the check_device.py script.
-- ~RATE (int, default: 44100)
+- ~sampling_frequency (int, default: 44100)
 The data rate of the microphone. You should check and fill out each model. This information can be checked through the check_device.py script.
-- ~LOOP_RATE (int, default: 20)
+- ~loop_rate (int, default: 20)
 The frequency of the topic. The default is 20 and can be modified by replacing configure.
+- ~with_spellchecker (bool, default: True)
+This is a parameter for spell checker on korean language. If parameter is true, stt converter will return text which is spell-checked
 
 ### 8.2 State update parameters
-- ~perception/robot_speech_silbot (bool, default: False)
-This is a parameter for the state of the robot's speech. T/F is reflected according to ON / OFF.
-- ~perception/human_speech (bool, default: False)
-This is a parameter for the state of human speech. T/F is reflected according to ON / OFF.
-- ~perception/name (string, default: “”)
+- ~db_initiation (bool, default: False)
+This is a parameter for initiation of personality token database.
+- ~human_name (string, default: "")
 This is the name of a person. As the user changes, information from the perception engine is dynamically registered in the parameter server.
-- ~perception/human_dialog (string, default: “”)
-This is human speech. The result of the STT is dynamically registered in the parameter server.
+- ~is_speaking_human (bool, default: False)
+This is a parameter for the state of human speech. T/F is reflected according to ON / OFF.
+- ~is_speaking_robot (bool, default: False)
+This is a parameter for the state of the robot's speech. T/F is reflected according to ON / OFF.
 
 ## 9. Related Applications (Optional)
 
